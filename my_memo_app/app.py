@@ -12,15 +12,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysqlpswd@localhos
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # 세션 및 쿠키에 대한 보안 향상을 위해 필요한 비밀 키를 설정합니다.
 app.config['SECRET_KEY'] = 'mysecretkey'
-db = SQLAlchemy(app)
 
+
+# 데이터베이스 및 로그인 관리자 초기화
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+# 라우팅 설정
 setup_routes(app)
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run()
+# 데이터베이스 테이블 생성
+with app.app_context():
+    db.create_all()
